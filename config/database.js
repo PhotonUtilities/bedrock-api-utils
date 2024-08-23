@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const MONGO_URI = 'mongodb+srv://grant:toxS21WtXkZ1ieQR@cluster0.3op26.mongodb.net/';
+// should look like this mongodb+srv://<username>:<Database-password>@cluster0.3op26.mongodb.net/
+const MONGO_URI = 'uri_goes_here';
 
 const connectDB = async () => {
     try {

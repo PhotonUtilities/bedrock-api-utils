@@ -1,77 +1,50 @@
-# Player Score API Documentation
+# Player Score API
 
-## Table of Contents
+## Overview
 
-1. [Introduction](#introduction)
-2. [Installation](#installation)
-3. [Configuration](#configuration)
-4. [API Endpoints](#api-endpoints)
-   - [Set Player Score](#set-player-score)
-   - [Set Player List](#set-player-list)
-   - [Get Player List](#get-player-list)
-   - [Get Player Score](#get-player-score)
-   - [Check Server Status](#check-server-status)
-5. [Error Handling](#error-handling)
-6. [Running the Server](#running-the-server)
+This API allows you to manage player scores and player lists. It includes endpoints for setting and retrieving player data, and checking the server status.
 
-## Introduction
+## Setup
 
-This API provides a way to manage player scores and player lists for a game. It allows you to:
+### Prerequisites
 
-- Set and update player scores.
-- Set and update the player list.
-- Retrieve the player list.
-- Retrieve player scores.
-- Check the server status.
+- Node.js (v14 or higher)
+- MongoDB
 
-## Installation
+### Installation
 
-1. **Clone the repository:**
+1. **Clone the Repository**
 
-    ```bash
-    git clone https://github.com/tm-grant6/bedrock-api.git
-    ```
+   ```bash
+   git clone https://github.com/your-repo/your-project.git
+   cd your-project
+   ```
 
-2. **Navigate to the project directory:**
+2. **Install Dependencies**
 
-    ```bash
-    cd bedrock-api
-    ```
+   ```bash
+   npm install
+   ```
 
-3. **Install dependencies:**
+3. **Configure Environment**
 
-    ```bash
-    npm install
-    ```
+   Edit `config/keys.js` to set your MongoDB URI and API keys:
 
-4. **Set up your MongoDB URI:**
+   ```javascript
+   module.exports = {
+       KEY: 'your_private_key_here',
+       REQUEST_KEY: 'your_request_key_here',
+       MONGO_URI: 'your_mongo_db_uri'
+   };
+   ```
 
-    Make sure you have a MongoDB URI. You can replace the placeholder URI in `config/database.js`.
+4. **Start the Server**
 
-5. **Set up your API keys:**
+   ```bash
+   node server.js
+   ```
 
-    Replace the `your_key_here` and `your_request_key_here` placeholders in `config/keys.js` with your own private and request key.
-
-## Configuration
-
-### MongoDB Connection
-
-The database connection is handled in the `config/database.js` file. Ensure that your MongoDB URI is correctly set in this file:
-
-```javascript
-const MONGO_URI = 'your_mongo_db_uri';
-```
-
-### API Keys
-
-API keys are stored in the `config/keys.js` file. Replace the placeholder keys with your actual keys:
-
-```javascript
-module.exports = {
-    KEY: 'your_private_key_here',
-    REQUEST_KEY: 'your_request_key_here'
-};
-```
+   The server will be available at `http://localhost:3000`.
 
 ## API Endpoints
 
@@ -79,189 +52,62 @@ module.exports = {
 
 **Endpoint:** `POST /api/setscore`
 
-**Authorization:** Requires the private key in the `Authorization` header.
+**Headers:**
+- `Authorization: your_private_key_here`
 
-**Body Parameters:**
+**Body:**
 
-- `name` (string, required): The name of the player.
-- `stats` (object, required): A map of stat names to their respective values.
-
-**Example Request:**
-
-```json
-POST /api/setscore HTTP/1.1
-Authorization: your_private_key_here
-Content-Type: application/json
-
-{
-  "name": "PlayerOne",
-  "stats": {
-    "kills": 10,
-    "deaths": 2,
-    "assists": 5
-  }
-}
-```
-
-**Example Response:**
-
-```json
-HTTP/1.1 200 OK
-{
-  "message": "Score saved successfully"
-}
-```
+   ```json
+   {
+     "name": "PlayerOne",
+     "stats": {
+       "kills": 10,
+       "deaths": 2,
+       "assists": 5
+     }
+   }
+   ```
 
 ### Set Player List
 
 **Endpoint:** `POST /api/setplayers`
 
-**Authorization:** Requires the private key in the `Authorization` header.
+**Headers:**
+- `Authorization: your_private_key_here`
 
-**Body Parameters:**
+**Body:**
 
-- An array of player objects.
-
-**Example Request:**
-
-```json
-POST /api/setplayers HTTP/1.1
-Authorization: your_private_key_here
-Content-Type: application/json
-
-[
-  {
-    "name": "PlayerOne",
-    "stats": {
-      "kills": 10,
-      "deaths": 2,
-      "assists": 5
-    }
-  },
-  {
-    "name": "PlayerTwo",
-    "stats": {
-      "kills": 8,
-      "deaths": 4,
-      "assists": 3
-    }
-  }
-]
-```
-
-**Example Response:**
-
-```json
-HTTP/1.1 200 OK
-{
-  "message": "Player list updated"
-}
-```
+   ```json
+   [
+     "PlayerOne",
+     "PlayerTwo",
+     "PlayerThree"
+   ]
+   ```
 
 ### Get Player List
 
 **Endpoint:** `GET /api/getplayers`
 
-**Authorization:** Requires the request key in the `Authorization` header.
-
-**Example Request:**
-
-```json
-GET /api/getplayers HTTP/1.1
-Authorization: your_request_key_here
-```
-
-**Example Response:**
-
-```json
-HTTP/1.1 200 OK
-[
-  {
-    "name": "PlayerOne",
-    "stats": {
-      "kills": 10,
-      "deaths": 2,
-      "assists": 5
-    }
-  },
-  {
-    "name": "PlayerTwo",
-    "stats": {
-      "kills": 8,
-      "deaths": 4,
-      "assists": 3
-    }
-  }
-]
-```
+**Headers:**
+- `Authorization: your_request_key_here`
 
 ### Get Player Score
 
-**Endpoint:** `GET /api/getscore`
+**Endpoint:** `GET /api/getscore?name=PlayerOne`
 
-**Query Parameters:**
-
-- `name` (string, required): The name of the player.
-
-**Example Request:**
-
-```json
-GET /api/getscore?name=PlayerOne HTTP/1.1
-Authorization: your_request_key_here
-```
-
-**Example Response:**
-
-```json
-HTTP/1.1 200 OK
-{
-  "name": "PlayerOne",
-  "stats": {
-    "kills": 10,
-    "deaths": 2,
-    "assists": 5
-  }
-}
-```
+**Headers:**
+- `Authorization: your_request_key_here`
 
 ### Check Server Status
 
 **Endpoint:** `GET /api/status`
 
-**Description:** This endpoint checks if the server is running properly.
+## Notes
 
-**Example Request:**
+- Ensure MongoDB is running and accessible.
+- Use the provided keys carefully and keep them secure.
 
-```json
-GET /api/status HTTP/1.1
-```
+## License
 
-**Example Response:**
-
-```json
-HTTP/1.1 200 OK
-{
-  "status": "Server is running"
-}
-```
-
-## Error Handling
-
-The API returns standard HTTP status codes for errors. Common error responses include:
-
-- `401 Unauthorized`: The authorization key is missing or invalid.
-- `400 Bad Request`: The request is missing required parameters or is formatted incorrectly.
-- `404 Not Found`: The requested resource does not exist.
-- `500 Internal Server Error`: An error occurred on the server.
-
-## Running the Server
-
-To run the server, use the following command:
-
-```bash
-node app.js
-```
-
-The server will start on port `3000`, and you'll see output in the console indicating the server is listening.
-
-Ensure that you have your private and request keys set up correctly. You can now make API requests to the server.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
