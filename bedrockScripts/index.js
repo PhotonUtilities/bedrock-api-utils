@@ -62,5 +62,5 @@ system.runInterval(() => {
         const stats = getStats(p);
         setScore(p.name, stats);
     });
-}, 20);
+}, 100);
 // We do not recommend changing this, as it can cause a lot of network usage
