@@ -16,7 +16,7 @@ This API allows you to manage player scores and player lists. It includes endpoi
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/your-repo/your-project.git
+   git clone https://github.com/TM-Grant6/bedrock-api-utils.git
    cd your-project
    ```
 
@@ -28,17 +28,37 @@ This API allows you to manage player scores and player lists. It includes endpoi
 
 3. **Configure Environment**
 
-   Edit `config/keys.js` to set your MongoDB URI and API keys:
+   Edit `config/keys.js` to set your API keys:
 
    ```javascript
    module.exports = {
        KEY: 'your_private_key_here',
        REQUEST_KEY: 'your_request_key_here',
-       MONGO_URI: 'your_mongo_db_uri'
    };
    ```
 
-4. **Start the Server**
+   Edit `config/database.js` to set your MongoDB URI
+   
+   ```javascript
+   const mongoose = require('mongoose');
+
+   // should look like this mongodb+srv://<username>:<Database-password>@cluster0.3op26.mongodb.net/
+   const MONGO_URI = 'uri_goes_here';
+
+   const connectDB = async () => {
+      try {
+         wait mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+         console.log('Connected to MongoDB');
+      } catch (err) {
+         console.error('MongoDB connection error:', err);
+         process.exit(1);
+      }
+   };
+
+   module.exports = connectDB;
+   ```
+
+5. **Start the Server**
 
    ```bash
    node server.js
